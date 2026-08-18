@@ -78,6 +78,17 @@ def _save_uploads(form: cgi.FieldStorage, destination: Path) -> list[str]:
     return saved
 
 
+def _scan_options(form: cgi.FieldStorage) -> dict:
+    min_confidence_raw = form.getfirst("min_confidence", "")
+    return {
+        "mode": form.getfirst("mode", "fast"),
+        "sensitivity": int(form.getfirst("sensitivity", "2")),
+        "min_confidence": int(min_confidence_raw) if min_confidence_raw else None,
+        "safe": form.getfirst("safe", "true") == "true",
+        "no_cache": True,
+    }
+
+
 class CredAuditHandler(BaseHTTPRequestHandler):
     server_version = "CredAuditWeb/0.1"
 
@@ -127,24 +138,29 @@ class CredAuditHandler(BaseHTTPRequestHandler):
             )
 
             try:
-                saved = _save_uploads(form, scan_dir)
-                if not saved:
-                    _json_response(self, 400, {"error": "Upload at least one file or paste text to scan."})
-                    return
+                options = _scan_options(form)
+                folder_path = form.getfirst("folder_path", "").strip()
 
-                mode = form.getfirst("mode", "fast")
-                sensitivity = int(form.getfirst("sensitivity", "2"))
-                min_confidence_raw = form.getfirst("min_confidence", "")
-                min_confidence = int(min_confidence_raw) if min_confidence_raw else None
-                safe = form.getfirst("safe", "true") == "true"
+                if folder_path:
+                    target = Path(folder_path).expanduser().resolve()
+                    if not target.exists():
+                        _json_response(self, 400, {"error": "Folder path does not exist."})
+                        return
+                    if not target.is_dir():
+                        _json_response(self, 400, {"error": "Folder path must point to a directory."})
+                        return
+                    scan_target = target
+                    inputs = [str(target)]
+                else:
+                    inputs = _save_uploads(form, scan_dir)
+                    if not inputs:
+                        _json_response(self, 400, {"error": "Upload files, choose a folder, paste text, or enter a folder path."})
+                        return
+                    scan_target = scan_dir
 
                 result = scan(
-                    str(scan_dir),
-                    mode=mode,
-                    sensitivity=sensitivity,
-                    min_confidence=min_confidence,
-                    safe=safe,
-                    no_cache=True,
+                    str(scan_target),
+                    **options,
                     output_dir=str(scan_dir / "out"),
                 )
 
@@ -157,7 +173,7 @@ class CredAuditHandler(BaseHTTPRequestHandler):
                         "exit_code": result.exit_code,
                         "files_scanned": result.files_scanned,
                         "findings": result.findings,
-                        "inputs": saved,
+                        "inputs": inputs,
                         "version": result.version,
                     },
                 )

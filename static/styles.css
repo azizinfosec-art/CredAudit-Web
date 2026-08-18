@@ -108,6 +108,7 @@ small,
 
 textarea,
 select,
+input[type="text"],
 input[type="number"] {
   width: 100%;
   border: 1px solid var(--line);
@@ -116,6 +117,10 @@ input[type="number"] {
   color: var(--ink);
   font: inherit;
   background: #fff;
+}
+
+.compact {
+  padding: 18px 24px;
 }
 
 textarea {

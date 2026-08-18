@@ -15,10 +15,21 @@
         </div>
 
         <form id="scan-form">
+          <label class="field">
+            <span>Local folder path</span>
+            <input name="folder_path" type="text" placeholder="C:\Users\Dell\Desktop\evidence" />
+          </label>
+
           <label class="dropzone">
             <input id="files" name="files" type="file" multiple />
             <span>Drop files here or choose files</span>
             <small>TXT, ENV, JSON, YAML, logs, Office, PDF, HAR, ZIP and more</small>
+          </label>
+
+          <label class="dropzone compact">
+            <input id="folder-files" name="files" type="file" webkitdirectory directory multiple />
+            <span>Choose folder from browser</span>
+            <small>Supported in Chrome and Edge. Local folder path is better for large audits.</small>
           </label>
 
           <label class="field">
@@ -90,7 +101,7 @@
               </tr>
             </thead>
             <tbody id="findings-body">
-              <tr><td colspan="6" class="empty">Upload files or paste text to start.</td></tr>
+              <tr><td colspan="6" class="empty">Enter a folder path, choose a folder, upload files, or paste text to start.</td></tr>
             </tbody>
           </table>
         </div>

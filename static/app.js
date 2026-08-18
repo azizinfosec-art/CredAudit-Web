@@ -61,7 +61,7 @@ form.addEventListener("submit", async (event) => {
   scanButton.disabled = true;
   scanButton.textContent = "Scanning...";
   resultTitle.textContent = "Scanning";
-  findingsBody.innerHTML = '<tr><td colspan="6" class="empty">Scanning uploaded evidence...</td></tr>';
+  findingsBody.innerHTML = '<tr><td colspan="6" class="empty">Scanning evidence...</td></tr>';
 
   const data = new FormData(form);
   data.set("safe", form.safe.checked ? "true" : "false");
