@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CredAudit Web</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="panel controls">
+        <div>
+          <p class="eyebrow">CredAudit Web</p>
+          <h1>Scan evidence for exposed credentials</h1>
+        </div>
+
+        <form id="scan-form">
+          <label class="dropzone">
+            <input id="files" name="files" type="file" multiple />
+            <span>Drop files here or choose files</span>
+            <small>TXT, ENV, JSON, YAML, logs, Office, PDF, HAR, ZIP and more</small>
+          </label>
+
+          <label class="field">
+            <span>Paste text</span>
+            <textarea name="pasted" rows="8" placeholder="Paste configuration, logs, or credentials evidence"></textarea>
+          </label>
+
+          <div class="grid">
+            <label class="field">
+              <span>Mode</span>
+              <select name="mode">
+                <option value="fast">Fast</option>
+                <option value="full">Full</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Sensitivity</span>
+              <input name="sensitivity" type="range" min="1" max="3" value="2" />
+            </label>
+
+            <label class="field">
+              <span>Min confidence</span>
+              <input name="min_confidence" type="number" min="0" max="100" placeholder="Any" />
+            </label>
+          </div>
+
+          <label class="toggle">
+            <input name="safe" type="checkbox" checked />
+            <span>Redact secrets in results</span>
+          </label>
+
+          <button id="scan-button" type="submit">Run scan</button>
+        </form>
+      </section>
+
+      <section class="panel results">
+        <div class="toolbar">
+          <div>
+            <p class="eyebrow">Results</p>
+            <h2 id="result-title">Ready</h2>
+          </div>
+          <button id="download-button" type="button" disabled>Download JSON</button>
+        </div>
+
+        <div class="stats">
+          <div><strong id="files-count">0</strong><span>Files</span></div>
+          <div><strong id="finding-count">0</strong><span>Findings</span></div>
+          <div><strong id="elapsed">0s</strong><span>Elapsed</span></div>
+        </div>
+
+        <div class="severity-grid">
+          <div class="critical"><strong id="critical-count">0</strong><span>Critical</span></div>
+          <div class="high"><strong id="high-count">0</strong><span>High</span></div>
+          <div class="medium"><strong id="medium-count">0</strong><span>Medium</span></div>
+          <div class="low"><strong id="low-count">0</strong><span>Low</span></div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Severity</th>
+                <th>Rule</th>
+                <th>Confidence</th>
+                <th>File</th>
+                <th>Line</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody id="findings-body">
+              <tr><td colspan="6" class="empty">Upload files or paste text to start.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <script src="/static/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,288 @@
+:root {
+  color-scheme: light;
+  --bg: #eef1f4;
+  --panel: #ffffff;
+  --ink: #17212b;
+  --muted: #617080;
+  --line: #d9e0e7;
+  --accent: #007f73;
+  --accent-dark: #05665e;
+  --danger: #b42318;
+  --warn: #b54708;
+  --info: #175cd3;
+  --low: #297057;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.shell {
+  display: grid;
+  grid-template-columns: minmax(320px, 430px) minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.panel {
+  padding: 28px;
+}
+
+.controls {
+  background: #f8fafb;
+  border-right: 1px solid var(--line);
+}
+
+.results {
+  background: var(--panel);
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--accent-dark);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1,
+h2 {
+  margin: 0;
+  line-height: 1.1;
+}
+
+h1 {
+  max-width: 12ch;
+  font-size: 42px;
+}
+
+h2 {
+  font-size: 28px;
+}
+
+form {
+  display: grid;
+  gap: 18px;
+  margin-top: 30px;
+}
+
+.dropzone {
+  display: grid;
+  gap: 8px;
+  padding: 24px;
+  border: 1px dashed #9aacbc;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.dropzone input {
+  width: 100%;
+}
+
+.dropzone span {
+  font-weight: 800;
+}
+
+small,
+.field span,
+.toggle span,
+.stats span,
+.severity-grid span {
+  color: var(--muted);
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+textarea,
+select,
+input[type="number"] {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 11px 12px;
+  color: var(--ink);
+  font: inherit;
+  background: #fff;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+}
+
+button {
+  min-height: 44px;
+  border: 0;
+  border-radius: 8px;
+  padding: 0 16px;
+  color: #fff;
+  background: var(--accent);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--accent-dark);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.toolbar button {
+  color: var(--accent-dark);
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
+.stats,
+.severity-grid {
+  display: grid;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.stats {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.severity-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.stats div,
+.severity-grid div {
+  min-height: 82px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfcfd;
+}
+
+.stats strong,
+.severity-grid strong {
+  display: block;
+  font-size: 28px;
+}
+
+.critical strong {
+  color: var(--danger);
+}
+
+.high strong {
+  color: #c4320a;
+}
+
+.medium strong {
+  color: var(--warn);
+}
+
+.low strong {
+  color: var(--low);
+}
+
+.table-wrap {
+  overflow: auto;
+  margin-top: 22px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+table {
+  width: 100%;
+  min-width: 860px;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+th,
+td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  color: #3a4856;
+  background: #f5f7f9;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+td {
+  max-width: 340px;
+  overflow-wrap: anywhere;
+}
+
+.empty {
+  color: var(--muted);
+  text-align: center;
+}
+
+@media (max-width: 980px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .controls {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  h1 {
+    max-width: none;
+    font-size: 34px;
+  }
+}
+
+@media (max-width: 620px) {
+  .panel {
+    padding: 20px;
+  }
+
+  .grid,
+  .stats,
+  .severity-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
