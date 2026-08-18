@@ -1,0 +1,1 @@
+include_ext: ['.txt','.json','.env','.docx','.pdf','.xlsx','.har']
